@@ -1,35 +1,35 @@
-# GitHub Workflow
+# GitHub 流程
 
-## Prepare
+## 准备
 
-1. Resolve the intended project directory to an absolute path. List its immediate files and inspect parent directories for `.git`.
-2. Run `git rev-parse --show-toplevel` when Git is already active. If it resolves to a parent workspace and this project needs a separate remote, initialize a repository only in the exact project directory.
-3. Initialize with the intended default branch, normally `git init -b main`, only after the project boundary is confirmed. Immediately verify the new repository root.
-4. Inspect `git status`, remotes, active branch, and recent commits.
-5. Create or review `.gitignore` before staging. Choose exclusions from the actual stack and include, when applicable: `.env*` except explicit templates, dependency directories, build and coverage output, logs, caches, IDE metadata, OS metadata, local databases, uploads, and temporary files.
-6. Use `git check-ignore -v` on representative excluded files when they exist.
-7. Run a focused sensitive-data scan before staging. Search filenames and contents, but never print discovered secret values.
-8. Review untracked files and large binaries. Ask before committing datasets or binary assets whose purpose is unclear.
+1. 将目标项目目录解析为绝对路径。列出其第一层文件，并检查父目录中是否存在 `.git`。
+2. Git 已生效时，运行 `git rev-parse --show-toplevel`。如果结果指向父级工作区，而当前项目需要独立远程仓库，只在准确的项目目录中初始化仓库。
+3. 确认项目边界后，使用目标默认分支初始化，通常运行 `git init -b main`。随后立即验证新的仓库根目录。
+4. 检查 `git status`、远程地址、当前分支和最近提交。
+5. 暂存前创建或检查 `.gitignore`。根据实际技术栈选择排除项；适用时应包括：除明确模板外的 `.env*`、依赖目录、构建和覆盖率产物、日志、缓存、IDE 配置、操作系统元数据、本地数据库、上传文件和临时文件。
+6. 如果存在代表性的排除文件，使用 `git check-ignore -v` 验证规则。
+7. 暂存前进行有针对性的敏感信息扫描。搜索文件名和内容，但绝不能输出发现的密钥值。
+8. 检查未跟踪文件和大型二进制文件。用途不明确的数据集或二进制资源，提交前先询问用户。
 
-## Commit
+## 提交
 
-1. Show the files that will be staged.
-2. Stage only project files. Never use a parent workspace as the staging root.
-3. Inspect `git diff --cached --stat` and `git diff --cached` before committing. If a staged secret, runtime database, upload, log, cache, or unrelated file appears, unstage it and fix `.gitignore`.
-4. Create a clear initial or incremental commit.
-5. Do not amend unrelated user commits.
+1. 展示即将暂存的文件。
+2. 只暂存项目文件，绝不能把父级工作区作为暂存根目录。
+3. 提交前检查 `git diff --cached --stat` 和 `git diff --cached`。如果发现已暂存的密钥、运行时数据库、上传文件、日志、缓存或无关文件，先取消暂存并修正 `.gitignore`。
+4. 创建说明清楚的首次提交或增量提交。
+5. 不要修改与当前任务无关的用户提交。
 
-## Connect And Push
+## 连接并推送
 
-1. Verify the exact remote URL supplied by the user.
-2. Add `origin` only when absent; do not replace it silently.
-3. Inspect whether the remote already has commits before the first push.
-4. Push the intended branch and set upstream tracking.
-5. If Git reports dubious ownership on Windows, explain the repository trust check and have the user add only the exact repository path to `safe.directory`. Do not configure broad wildcard trust.
-6. If authentication is required, use the operating system or GitHub browser flow. Never ask the user to paste a token into chat.
+1. 核对用户提供的准确远程地址。
+2. 仅在不存在 `origin` 时添加，不要静默替换现有地址。
+3. 第一次推送前检查远程仓库是否已有提交。
+4. 推送目标分支并设置上游跟踪关系。
+5. Windows 上出现 Git `dubious ownership` 时，解释仓库信任检查，并让用户只把准确的仓库路径加入 `safe.directory`，不要设置宽泛的通配符信任。
+6. 需要身份验证时，使用操作系统或 GitHub 浏览器授权流程，绝不让用户在聊天中粘贴令牌。
 
-## Final Checks
+## 最终检查
 
-- Confirm the branch exists on GitHub.
-- Confirm sensitive and generated files are absent.
-- Provide the public repository URL.
+- 确认目标分支已经出现在 GitHub。
+- 确认敏感文件和生成文件没有被上传。
+- 提供公开的仓库地址。

@@ -1,60 +1,60 @@
 ---
 name: deploy-project-publicly
-description: Prepare a local Node.js API, HTML/CSS/JavaScript site, restaurant website, or similar small project for public sharing; safely publish source code to GitHub; deploy it to Render as either a Static Site or Web Service; and verify the resulting public URL. Use when the user asks to upload project code or selected data to GitHub, put a project online, create a resume/demo URL, repeat the GitHub-and-Render workflow, or troubleshoot a related deployment.
+description: 为本地 Node.js API、HTML/CSS/JavaScript 网站、饭馆网站或类似小型项目做好公开发布准备；将源码安全上传到 GitHub；根据项目类型部署为 Render Static Site 或 Web Service；并验证最终公网地址。当用户要求上传项目代码或选定数据到 GitHub、把项目发布到公网、创建简历或演示链接、复用 GitHub 与 Render 发布流程，或排查相关部署问题时使用此技能。
 ---
 
-# Deploy Project Publicly
+# 将项目发布到公网
 
-Publish a project with a clean Git history and a verified public URL. Keep the user informed in beginner-friendly language and perform all non-account actions autonomously.
+使用整洁的 Git 历史和经过验证的公网地址发布项目。使用适合初学者理解的语言向用户同步进展，并自主完成不涉及账号操作的工作。
 
-## Workflow
+## 工作流程
 
-1. Resolve the exact project root before touching Git. Inspect parent directories for an existing `.git`, confirm which files belong to the requested project, and never initialize at a broad workspace or parent directory by accident.
-2. Inspect the framework, start/build commands, tests, existing Git state, and local instructions such as `AGENTS.md`.
-3. Classify the project:
-   - Choose a Render **Static Site** for HTML/CSS/client-side JavaScript that does not run a server.
-   - Choose a Render **Web Service** for Node.js APIs, server-rendered apps, or any project that listens on a port.
-4. Create or update `.gitignore` before the first `git add`. Audit `.env*`, tokens, passwords, private keys, credentials, personal information, generated output, dependencies, databases, uploads, logs, caches, editor files, and large binaries. Never commit secrets or private/user-generated data.
-5. Initialize Git only inside the confirmed project root when the project does not already have its own repository. Re-check `git rev-parse --show-toplevel` immediately after initialization.
-6. Make the smallest deployment changes needed. Preserve existing project patterns and user changes.
-7. Run the repository's required tests or build. Follow local instructions exactly.
-8. Prepare and publish Git history by following [GitHub workflow](references/github.md).
-9. Guide the user through account login or authorization only when required. Never request passwords, OTPs, access tokens, or recovery codes in chat.
-10. Deploy by following [Render workflow](references/render.md).
-11. Verify the public root URL and at least one meaningful route. For APIs, verify the health and primary collection routes. For sites, verify the landing page and critical assets.
-12. Return the public URL, GitHub source URL, verification result, free-tier limitations, and any persistence limitations.
+1. 在操作 Git 前确定准确的项目根目录。检查父目录中是否已有 `.git`，确认哪些文件属于目标项目，绝不能误在宽泛的工作区或父目录初始化仓库。
+2. 检查框架、启动和构建命令、测试、现有 Git 状态，以及 `AGENTS.md` 等本地指令。
+3. 判断项目类型：
+   - 对不运行服务器的 HTML/CSS/浏览器端 JavaScript 项目，选择 Render **Static Site**。
+   - 对 Node.js API、服务端渲染应用或任何需要监听端口的项目，选择 Render **Web Service**。
+4. 在第一次执行 `git add` 前创建或更新 `.gitignore`。检查 `.env*`、令牌、密码、私钥、凭据、个人信息、生成产物、依赖、数据库、上传文件、日志、缓存、编辑器文件和大型二进制文件。绝不能提交密钥或用户的私有运行数据。
+5. 只有在项目没有独立仓库时，才在已确认的项目根目录中初始化 Git。初始化后立即重新检查 `git rev-parse --show-toplevel`。
+6. 只做部署所需的最小改动，保留现有项目模式和用户修改。
+7. 运行仓库要求的测试或构建，并严格遵守本地指令。
+8. 按照 [GitHub 流程](references/github.md) 准备并发布 Git 历史。
+9. 仅在确有需要时指导用户完成账号登录或授权。绝不在聊天中索要密码、一次性验证码、访问令牌或恢复代码。
+10. 按照 [Render 流程](references/render.md) 完成部署。
+11. 验证公网根地址和至少一个有意义的路由。对于 API，验证健康检查和主要集合路由；对于网站，验证首页和关键资源。
+12. 返回公网地址、GitHub 源码地址、验证结果、免费套餐限制和数据持久化限制。
 
-## Deployment Requirements
+## 部署要求
 
-For a Node.js Web Service:
+对于 Node.js Web Service：
 
-- Read `PORT` from the environment.
-- Listen on `0.0.0.0` in hosted environments.
-- Provide a stable start command in `package.json`.
-- Add a lightweight health endpoint when practical.
-- Do not hard-code production secrets or URLs.
+- 从环境变量读取 `PORT`。
+- 在托管环境中监听 `0.0.0.0`。
+- 在 `package.json` 中提供稳定的启动命令。
+- 在合理情况下添加轻量级健康检查接口。
+- 不要硬编码生产环境密钥或网址。
 
-For a Static Site:
+对于 Static Site：
 
-- Confirm the publish directory contains `index.html`.
-- Use relative or deploy-safe asset paths.
-- Set the build command to blank when no build is needed.
-- Test navigation and asset loading from the publish directory.
+- 确认发布目录包含 `index.html`。
+- 使用相对路径或适合部署环境的资源路径。
+- 不需要构建时，将构建命令留空。
+- 从发布目录测试导航和资源加载。
 
-## Data Policy
+## 数据规则
 
-Distinguish source/demo data from runtime data:
+区分源码或演示数据与运行时数据：
 
-- Commit small, clearly fictional seed or sample data when it is part of the project and contains no sensitive information.
-- Do not commit production databases, customer records, form submissions, uploaded files, logs, session data, or local runtime state.
-- Explain that in-memory data disappears when a free Web Service restarts or sleeps. Add persistent storage only when the user asks and understands the hosting tradeoff.
-- If persistent data is needed, prefer a managed database and migrations or seed scripts rather than committing a live database file.
+- 当项目确实需要时，可以提交少量、明确为虚构内容且不含敏感信息的种子数据或示例数据。
+- 不要提交生产数据库、客户记录、表单提交内容、上传文件、日志、会话数据或本地运行状态。
+- 说明免费 Web Service 重启或休眠时，内存数据会消失。只有在用户提出要求并理解托管成本与限制后，才增加持久化存储。
+- 需要持久化数据时，优先使用托管数据库及迁移或种子脚本，不要提交正在使用的数据库文件。
 
-## Safety And Handoff
+## 安全与交付
 
-- Ask before adding production dependencies.
-- Do not overwrite an existing remote or force-push without explicit approval.
-- If the remote repository is not empty, inspect and reconcile histories before pushing.
-- Treat deployment creation, GitHub App installation, and OAuth authorization as external side effects. Explain the scope and let the user complete authentication or approve the final action when required.
-- On a free Render plan, warn that the first request after inactivity can take tens of seconds. Do not describe this as URL expiration.
-- Never claim success until the deployed URL returns the expected content.
+- 添加生产依赖前先询问用户确认。
+- 未经明确授权，不要覆盖现有远程仓库或强制推送。
+- 远程仓库非空时，推送前检查并妥善合并两边的历史。
+- 将创建部署、安装 GitHub App 和 OAuth 授权视为外部状态变更。解释操作范围，并在需要时让用户完成身份验证或批准最终操作。
+- 使用 Render 免费套餐时，提醒用户服务闲置后的第一次请求可能需要等待几十秒。不要把这种情况描述为网址失效。
+- 在部署网址返回预期内容前，绝不能宣称发布成功。

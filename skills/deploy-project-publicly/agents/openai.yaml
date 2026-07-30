@@ -1,4 +1,4 @@
 interface:
-  display_name: "Public Project Deployment"
-  short_description: "Publish projects with GitHub and Render"
-  default_prompt: "Use $deploy-project-publicly to publish this project to GitHub and deploy it with a public URL."
+  display_name: "项目公网发布"
+  short_description: "通过 GitHub 和 Render 安全发布项目到公网"
+  default_prompt: "使用 $deploy-project-publicly 将此项目安全上传到 GitHub，并部署为可公开访问的网址。"

@@ -1,39 +1,39 @@
-# Render Workflow
+# Render 流程
 
-## Select Service Type
+## 选择服务类型
 
-| Project | Render service | Typical settings |
+| 项目类型 | Render 服务 | 常用设置 |
 | --- | --- | --- |
-| Plain HTML/CSS/JS | Static Site | Build command blank; publish directory `.` or the output directory |
-| Bundled frontend | Static Site | Framework build command; publish directory such as `dist` or `build` |
-| Node.js API/server | Web Service | Build/test command plus `npm start` |
+| 原生 HTML/CSS/JS | Static Site | 构建命令留空；发布目录使用 `.` 或实际输出目录 |
+| 需要打包的前端 | Static Site | 使用框架构建命令；发布目录通常为 `dist` 或 `build` |
+| Node.js API 或服务器 | Web Service | 使用构建或测试命令，再运行 `npm start` |
 
-Do not choose Static Site for an API. Do not choose Web Service for plain HTML unless server behavior is genuinely required.
+不要把 API 选择为 Static Site。除非确实需要服务器行为，否则不要把原生 HTML 网站选择为 Web Service。
 
 ## Web Service
 
-1. Connect the exact GitHub repository and branch.
-2. Select Node when applicable.
-3. Leave Root Directory blank when the app is at repository root; otherwise use the precise subdirectory.
-4. Use the repository's tested build and start commands.
-5. Select the Free instance only when acceptable to the user.
-6. Set only required non-secret environment variables in declarative config. Add secrets in the Render dashboard, never in Git.
-7. Configure a health check route such as `/health`.
-8. Deploy and inspect logs until the service reports that it is live.
+1. 连接准确的 GitHub 仓库和分支。
+2. 适用时选择 Node。
+3. 应用位于仓库根目录时，将 Root Directory 留空；否则填写准确的子目录。
+4. 使用已在仓库中验证过的构建和启动命令。
+5. 只有用户能够接受相应限制时，才选择 Free 实例。
+6. 声明式配置中只设置必需且不敏感的环境变量。密钥只添加到 Render 控制台，绝不能提交到 Git。
+7. 配置 `/health` 等健康检查路由。
+8. 部署并检查日志，直到服务明确显示已经上线。
 
 ## Static Site
 
-1. Connect the exact GitHub repository and branch.
-2. Use a blank build command for a plain HTML project.
-3. Set Publish Directory to `.` when `index.html` is at repository root, or to the generated output directory for built frontends.
-4. Add rewrite rules only when client-side routing requires them.
-5. Deploy and verify that HTML, CSS, JavaScript, images, and navigation load from the public URL.
+1. 连接准确的 GitHub 仓库和分支。
+2. 对原生 HTML 项目，将构建命令留空。
+3. 当 `index.html` 位于仓库根目录时，将 Publish Directory 设置为 `.`；对于需要构建的前端，设置为生成的输出目录。
+4. 仅在浏览器端路由确实需要时添加重写规则。
+5. 部署并验证公网地址中的 HTML、CSS、JavaScript、图片和导航是否正常加载。
 
-## Verification And Handoff
+## 验证与交付
 
-- Verify the root public URL from a non-authenticated request.
-- For APIs, verify `/health`, one GET collection route, and a representative error response. Do not mutate production data merely to prove deployment unless the user authorizes it.
-- For sites, verify the first viewport and at least one key interaction on desktop and mobile when browser tooling is available.
-- Explain that signing out of GitHub or shutting down the local computer does not stop Render.
-- Explain that free Web Services may sleep after inactivity and wake on the next request; the URL remains valid while the Render service exists.
-- Explain whether data is persistent. In-memory data resets on restart or redeploy.
+- 使用未登录状态的请求验证公网根地址。
+- 对于 API，验证 `/health`、一个 GET 集合路由和一个代表性的错误响应。除非用户授权，不要为了验证部署而修改生产数据。
+- 对于网站，如果浏览器工具可用，在桌面和移动端验证首屏及至少一个关键交互。
+- 说明退出 GitHub 或关闭本地电脑不会停止 Render 服务。
+- 说明免费的 Web Service 可能在闲置后休眠，并在下次请求时唤醒；只要 Render 服务仍然存在，网址就保持有效。
+- 说明数据是否持久化。内存数据会在重启或重新部署时清空。
