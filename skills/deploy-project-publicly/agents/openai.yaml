@@ -1,0 +1,4 @@
+interface:
+  display_name: "Public Project Deployment"
+  short_description: "Publish projects with GitHub and Render"
+  default_prompt: "Use $deploy-project-publicly to publish this project to GitHub and deploy it with a public URL."
